@@ -9,7 +9,7 @@ env:
 
 jobs:
   buildForSomePlatforms:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: ${{ matrix.targetPlatform }} v${{ steps.myBuildStep.outputs.buildVersion }} - Unity ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -17,11 +17,11 @@ jobs:
         unityVersion:
           - 2020.1.11f1
         targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          # - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows # Build a Windows standalone.
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          - StandaloneLinux64 # Build a Linux 64-bit standalone.
-          - WebGL # WebGL.
+          # - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          # - StandaloneLinux64 # Build a Linux 64-bit standalone.
+          # - WebGL # WebGL.
     steps:
       - uses: actions/checkout@v2
         with:
@@ -34,6 +34,7 @@ jobs:
             Library-${{ matrix.projectPath }}-
             Library-
       - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: myBuildStep
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -41,5 +42,5 @@ jobs:
           versioning: Semantic
       - uses: actions/upload-artifact@v1
         with:
-          name: Build
-          path: build
+          name: ${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}
+          path: build/${{ matrix.targetPlatform }}
