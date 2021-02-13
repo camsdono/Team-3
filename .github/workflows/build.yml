@@ -9,7 +9,7 @@ env:
 
 jobs:
   buildForSomePlatforms:
-    name: ${{ matrix.targetPlatform }} v${{ steps.myBuildStep.outputs.buildVersion }} - Unity ${{ matrix.unityVersion }}
+    name: ${{ matrix.targetPlatform }} - Unity ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
