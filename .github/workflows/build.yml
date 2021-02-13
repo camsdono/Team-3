@@ -1,0 +1,131 @@
+name: '🔧 Build Project'
+
+on:
+  pull_request: {}
+  push: { branches: [main] }
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  PROJECT_NAME: Zombiller
+
+jobs:
+  buildForWindows32:
+    name: Unity 2020.1.11f1 - Windows32
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ./Library
+          key: Library-Cache-StandaloneWindows
+          restore-keys: |
+            Library-
+      - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: unityBuild
+        with:
+          projectPath: .
+          unityVersion: 2020.1.11f1
+          targetPlatform: StandaloneWindows
+          versioning: Semantic
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} Windows x32
+          path: build/StandaloneWindows
+  buildForWindows64:
+    name: Unity 2020.1.11f1 - Windows64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ./Library
+          key: Library-Cache-StandaloneWindows64
+          restore-keys: |
+            Library-Cache-
+      - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: unityBuild
+        with:
+          projectPath: '.'
+          unityVersion: 2020.1.11f1
+          targetPlatform: StandaloneWindows64
+          versioning: Semantic
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} Windows x64
+          path: build/StandaloneWindows64
+  buildForOSX:
+    name: Unity 2020.1.11f1 - OSX
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ./Library
+          key: Library-Cache-StandaloneOSX
+          restore-keys: |
+            Library-Cache-
+      - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: unityBuild
+        with:
+          projectPath: '.'
+          unityVersion: 2020.1.11f1
+          targetPlatform: StandaloneOSX
+          versioning: Semantic
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} OSX
+          path: build/StandaloneOSX
+  buildForLinux:
+    name: Unity 2020.1.11f1 - Linux64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ./Library
+          key: Library-Cache-StandaloneLinux64
+          restore-keys: |
+            Library-Cache-
+      - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: unityBuild
+        with:
+          projectPath: '.'
+          unityVersion: 2020.1.11f1
+          targetPlatform: StandaloneLinux64
+          versioning: Semantic
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} Linux64
+          path: build/StandaloneLinux64
+  buildForWebGL:
+    name: Unity 2020.1.11f1 - WebGL
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ./Library
+          key: Library-Cache-WebGL
+          restore-keys: |
+            Library-Cache-
+      - uses: webbertakken/unity-builder@v2.0-alpha-6
+        id: unityBuild
+        with:
+          projectPath: '.'
+          unityVersion: 2020.1.11f1
+          targetPlatform: WebGL
+          versioning: Semantic
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} WebGL
+          path: build/WebGL
