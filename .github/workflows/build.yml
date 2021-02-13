@@ -42,5 +42,5 @@ jobs:
           versioning: Semantic
       - uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}
+          name: ${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
